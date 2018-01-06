@@ -7,11 +7,29 @@
 </head>
 <body>
 <div class="row">
-    <div class="col-sm-2 col-md-1"><label for="cidade">Cidade</label></div>
-    <div class="col-sm-2 col-md-2"><input type="text" id="cidade"/> </div>
-    <div class="col-sm-2 col-md-1"><label for="estado">Estado</label></div>
-    <div class="col-sm-2 col-md-2"><input type="text" id="estado"/> </div>
-    <div class="col-sm-2 col-md-2"><input type="button" id="buscar" value="Buscar"/> </div>
+    <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1"><label for="cidade">Cidade</label></div>
+    <div class="col-xs-12 col-sm-10 col-md-2 col-lg-2"><input type="text" id="cidade"/> </div>
+    <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1"><label for="estado">Estado</label></div>
+    <div class="col-xs-12 col-sm-10 col-md-2 col-lg-2"><input type="text" id="estado"/> </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><input type="button" id="buscar" value="Buscar"/> </div>
+
+
+
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-2">
+        <table class="col-sm-12 col-md-6 col-lg-2">
+            <tr>
+                <th class="col-sm-6 col-md-1" >Nome</th>
+                <th class="col-sm-6 col-md-1" >Estado</th>
+            </tr>
+            <tr th:each="cidade  : ${cidades}">
+                <td class="col-sm-6 col-md-1" th:text="${cidade.nome}"></td>
+                <td class="col-sm-6 col-md-1" th:text="${cidade.estado}"></td>
+            </tr>
+        </table>
+    </div>
+
 </div>
 
 </body>
