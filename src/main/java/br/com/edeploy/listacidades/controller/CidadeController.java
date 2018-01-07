@@ -31,6 +31,13 @@ public class CidadeController {
         this.cidadeService = cidadeService;
     }
 
+    /**
+     * Faz a listagem de todas as cidades cadastradas, ou se forem informados o nome da cidade e/ou o estado, lista
+     * somente as cidades que tenham o nome e/ou estado informados.
+     * @param nome Nome ou parte do nome da cidade que se deseja buscar.
+     * @param estado Nome ou parte do nome do estado que se deseja buscar.
+     * @return Página com a lista de cidades que atendam os critérios.
+     */
     @RequestMapping(value = "/lista")
     ModelAndView lista(@RequestParam(value = "nome", required = false) String nome,
                        @RequestParam (value= "estado", required = false) String estado){
@@ -42,27 +49,19 @@ public class CidadeController {
         return mav;
     }
 
+    /**
+     * Obtém a pontuação da cidade que foi informada como parâmetro.
+     * @param nome Nome ou parte do nome da cidade que se deseja obter a pontuação.
+     * @param estado Nome ou parte do nome do estado que se deseja obter a pontuação.
+     * @return Json no formato {pontuacao: X}, onde X é a pontuação da cidade (Long)
+     */
     @RequestMapping(value = "/pontuacao", produces = "application/json")
     @ResponseBody String pontuacao(@RequestParam(value = "nome", required = false) String nome,
                                    @RequestParam (value= "estado", required = false) String estado){
         Long pontuacao = cidadeService.buscarPontuacao(nome, estado);
         JSONWriter jsonWriter = new JSONStringer();
         String resposta = jsonWriter.object().key("pontuacao").value(pontuacao).endObject().toString();
-        System.out.println("Resposta " + resposta);
         return resposta;
     }
-
-    /*@RequestMapping(value = "/busca"*//*, method = RequestMethod.POST*//*)
-    String busca(Model model,
-                 @RequestParam(value = "nome", required = false) String nome,
-                 @RequestParam (value= "estado", required = false) String estado){
-        System.out.println("Nome: " + nome);
-        System.out.println("Estado: " + estado);
-        List<CidadeDTO> cidades = cidadeService.buscarCidades(nome, estado);
-        model.addAttribute("cidades", cidades);
-        model.addAttribute("cidade", new CidadeDTO(nome, estado));
-
-        return "redirect:/cidade/lista";
-    }*/
 
 }

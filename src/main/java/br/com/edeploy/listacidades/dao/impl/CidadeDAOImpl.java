@@ -16,6 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 import org.json.JSONWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -29,13 +31,12 @@ import java.util.stream.Collectors;
 @Repository
 public class CidadeDAOImpl implements CidadeDAO{
 
+    private static final Logger logger = LoggerFactory.getLogger(CidadeDAOImpl.class);
+
     private static final String URL_BUSCA_TODAS_CIDADES = "http://wsteste.devedp.com.br/Master/CidadeServico.svc/rest/BuscaTodasCidades";
     private static final String URL_BUSCA_PONTUACAO_CIDADE = "http://wsteste.devedp.com.br/Master/CidadeServico.svc/rest/BuscaPontos";
 
     @Override
-    /**
-     * Lista todas as cidades disponíveis no webservice
-     */
     public List<Cidade> listarTodasCidades() {
         List<Cidade> cidades = new ArrayList<>();
         try {
@@ -43,26 +44,22 @@ public class CidadeDAOImpl implements CidadeDAO{
                     header("accept", "application/json");
             HttpResponse<JsonNode> jsonResponse = jsonResponse = request.asJson();
             JSONArray cidadesObtidas = jsonResponse.getBody().getArray();
-//            System.out.println("Número de cidades obtidas: " + cidadesObtidas.length());
+            logger.info("Número de cidades obtidas: " + cidadesObtidas.length());
             for(int i = 0; i < cidadesObtidas.length();i++) {
                 JSONObject innerObj = cidadesObtidas.getJSONObject(i);
                 Cidade cidade = new CidadeEntity(innerObj.get("Nome").toString(), innerObj.get("Estado").toString());
-//                System.out.println("Cidade " + cidade.getNome() + " no estado de " + cidade.getEstado());
+                logger.debug("Cidade " + cidade.getNome() + " no estado de " + cidade.getEstado());
                 cidades.add(cidade);
             }
 
         } catch (UnirestException e1) {
-            System.out.println("Não foi possível obter as cidades.");
+            logger.error("Não foi possível obter as cidades. Motivo: " + e1.getLocalizedMessage());
         }
 
         return cidades;
     }
 
     @Override
-    /**
-     * Busca as cidades que possuem o nome e/ou o estado informados. Retorna todas caso não sejam informados nem o nome
-     * nem o estado.
-     */
     public List<Cidade> buscarCidades(String nome, String estado) {
         List<Cidade> todasCidades = listarTodasCidades();
         List<Cidade> cidadesEncontradas = todasCidades.stream().filter(new Predicate<Cidade>() {
@@ -84,9 +81,6 @@ public class CidadeDAOImpl implements CidadeDAO{
     }
 
     @Override
-    /**
-     * Busca a pontuação
-     */
     public Long buscarPontuacao(String nome, String estado) {
         Long pontuacao = 0L;
         JSONWriter jsonWriter = new JSONStringer();

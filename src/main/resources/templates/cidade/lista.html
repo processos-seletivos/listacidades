@@ -7,18 +7,21 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row">
-        <form action="#" th:action="@{/cidade/lista}" th:object="${cidade}" method="get">
-            <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1"><label for="cidade">Cidade</label></div>
-            <div class="col-xs-12 col-sm-10 col-md-2 col-lg-2"><input type="text" th:field="*{nome}" id="cidade"/> </div>
-            <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1"><label for="estado">Estado</label></div>
-            <div class="col-xs-12 col-sm-10 col-md-2 col-lg-2"><input type="text" th:field="*{estado}" id="estado"/> </div>
-            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-1"><input type="submit" id="buscar" value="Buscar"/> </div>
-        </form>
+    <div class="row  form-group"/>
+    <div class="row form-group">
+        <div class="col-sm-12">
+            <form class="form-group" action="#" th:action="@{/cidade/lista}" th:object="${cidade}" method="get">
+                <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1"><label for="cidade">Cidade</label></div>
+                <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"><input class="form-control" type="text" th:field="*{nome}" id="cidade"/> </div>
+                <div class="col-xs-12 col-sm-2 col-md-1 col-lg-1"><label for="estado">Estado</label></div>
+                <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"><input class="form-control" type="text" th:field="*{estado}" id="estado"/> </div>
+                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-1"><input class="form-control btn btn-default" type="submit" id="buscar" value="Buscar"/> </div>
+            </form>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-6">
-            <table class="table table-striped table-responsive col-sm-12 col-md-6 col-lg-4">
+    <div class="row  form-group">
+        <div class="col-sm-8 col-md-6 col-lg-6">
+            <table class="table table-hover table-striped table-responsive col-sm-12 col-md-6 col-lg-4">
                 <thead class="bg-primary">
                     <tr>
                         <th scope="col" class="col-xs-4 col-md-2" >Nome</th>
@@ -31,7 +34,7 @@
                         <td class="col-xs-4 col-md-2" th:text="${cidade.nome}"></td>
                         <td class="col-xs-4 col-md-2" th:text="${cidade.estado}"></td>
                         <td class="col-xs-4 col-md-2" >
-                            <button th:id="'cidade_' + ${cidade.nome}" onclick="return mostrar_pontuacao(this);" th:attr="data-nome=${cidade.nome},data-estado=${cidade.estado}">Ver pontuação</button>
+                            <button class="btn btn-link" th:id="'cidade_' + ${cidade.nome}" onclick="return mostrar_pontuacao(this);" th:attr="data-nome=${cidade.nome},data-estado=${cidade.estado}">Ver pontuação</button>
                         </td>
                     </tr>
                 </tbody>
@@ -53,7 +56,7 @@ function mostrar_pontuacao(node) {
            estado: node.dataset.estado
         },
         success : function(response) {
-            alert(response.pontuacao);
+            alert("A pontuação da cidade " + node.dataset.nome + " é " + response.pontuacao);
         },
         error : function(e) {
            alert('Não foi possível obter a pontuação da cidade: ' + e);
