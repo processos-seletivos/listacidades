@@ -83,4 +83,11 @@ permitir chamadas AJAX.
 Para rodar o sistema, basta ter o Java 8 instalado, e rodar o comando a
 seguir dentro da raiz do projeto:
 
-java -jar build/libs/listacidades-1.0.1.jar
+**java -jar build/libs/listacidades-1.0.1.jar**
+
+## Possibilidades de melhoria ##
+
+Utilizar Datatables (https://datatables.net/) para facilitar a paginação
+e ordenação no próprio navegador, sem necessidade de fazer uma nova
+chamada.
+
