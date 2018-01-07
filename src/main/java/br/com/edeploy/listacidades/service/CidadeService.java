@@ -11,6 +11,7 @@ import java.util.List;
 public interface CidadeService {
     List<CidadeDTO> listarTodasCidades();
     List<CidadeDTO> buscarCidades(String nome, String estado);
+    Long buscarPontuacao(String nome, String estado);
 
 
 }

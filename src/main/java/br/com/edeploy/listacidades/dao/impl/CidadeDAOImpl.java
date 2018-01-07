@@ -8,8 +8,14 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
+import com.mashape.unirest.request.HttpRequest;
+import com.mashape.unirest.request.HttpRequestWithBody;
+import com.mashape.unirest.request.body.MultipartBody;
+import com.mashape.unirest.request.body.RequestBodyEntity;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONStringer;
+import org.json.JSONWriter;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -24,6 +30,7 @@ import java.util.stream.Collectors;
 public class CidadeDAOImpl implements CidadeDAO{
 
     private static final String URL_BUSCA_TODAS_CIDADES = "http://wsteste.devedp.com.br/Master/CidadeServico.svc/rest/BuscaTodasCidades";
+    private static final String URL_BUSCA_PONTUACAO_CIDADE = "http://wsteste.devedp.com.br/Master/CidadeServico.svc/rest/BuscaPontos";
 
     @Override
     /**
@@ -57,11 +64,7 @@ public class CidadeDAOImpl implements CidadeDAO{
      * nem o estado.
      */
     public List<Cidade> buscarCidades(String nome, String estado) {
-//        List<Cidade> todasCidades = listarTodasCidades();
-        List<Cidade> todasCidades = new ArrayList<>();
-        todasCidades.add(new CidadeEntity("Aracatuba", "SP"));
-        todasCidades.add(new CidadeEntity("Birigui", "SP"));
-        todasCidades.add(new CidadeEntity("Tres Lagoas", "MS"));
+        List<Cidade> todasCidades = listarTodasCidades();
         List<Cidade> cidadesEncontradas = todasCidades.stream().filter(new Predicate<Cidade>() {
             @Override
             public boolean test(Cidade cidade) {
@@ -74,10 +77,30 @@ public class CidadeDAOImpl implements CidadeDAO{
                     return cidade.getEstado().toLowerCase().contains(estado.toLowerCase());
 
                 }
-                return false;
+                return true;
             }
         }).collect(Collectors.toList());
         return cidadesEncontradas;
+    }
+
+    @Override
+    /**
+     * Busca a pontuação
+     */
+    public Long buscarPontuacao(String nome, String estado) {
+        Long pontuacao = 0L;
+        JSONWriter jsonWriter = new JSONStringer();
+        String body = jsonWriter.object().key("nome").value(nome).key("estado").value(estado).endObject().toString();
+
+        RequestBodyEntity request = Unirest.post(URL_BUSCA_PONTUACAO_CIDADE).
+                header("Accept", "application/json").header("Content-Type","application/json").body(
+                       new JsonNode(body) );
+        try {
+            pontuacao = Long.parseLong(request.asString().getBody());
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+        return pontuacao;
     }
 }
 

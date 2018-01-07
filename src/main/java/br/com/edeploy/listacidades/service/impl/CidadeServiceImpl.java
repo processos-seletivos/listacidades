@@ -44,4 +44,9 @@ public class CidadeServiceImpl implements CidadeService{
                 .collect(Collectors.toList());
         return cidades;
     }
+
+    @Override
+    public Long buscarPontuacao(String nome, String estado) {
+        return cidadeDAO.buscarPontuacao(nome, estado);
+    }
 }

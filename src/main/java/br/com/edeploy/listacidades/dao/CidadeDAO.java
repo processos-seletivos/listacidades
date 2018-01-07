@@ -12,4 +12,6 @@ public interface CidadeDAO {
     List<Cidade> listarTodasCidades();
 
     List<Cidade> buscarCidades(String nome, String estado);
+
+    Long buscarPontuacao(String nome, String estado);
 }
