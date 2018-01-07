@@ -13,6 +13,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'groovy'
 
 group = 'br.com.edeploy'
 version = '1.0.1'
@@ -39,5 +40,12 @@ dependencies {
 	compile('org.json:json:20140107')
 
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
+
+	// Spock
+	compile 'org.codehaus.groovy:groovy-all:2.4.7'
+//	testCompile 'org.springframework.boot:spring-boot-starter-test'
+	testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+	testCompile 'org.spockframework:spock-spring:1.1-groovy-2.4'
+	testRuntime 'cglib:cglib-nodep:3.2.4'
 
 }
