@@ -1,0 +1,9 @@
+br.com.edeploy.listacidades
+br.com.edeploy.listacidades.controller
+br.com.edeploy.listacidades.dao
+br.com.edeploy.listacidades.dao.impl
+br.com.edeploy.listacidades.domain
+br.com.edeploy.listacidades.domain.dto
+br.com.edeploy.listacidades.domain.entity
+br.com.edeploy.listacidades.service
+br.com.edeploy.listacidades.service.impl
