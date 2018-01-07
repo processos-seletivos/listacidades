@@ -85,6 +85,8 @@ seguir dentro da raiz do projeto:
 
 **java -jar build/libs/listacidades-1.0.1.jar**
 
+Acessar http://localhost:8080 para ver o site.
+
 ## Possibilidades de melhoria ##
 
 Utilizar Datatables (https://datatables.net/) para facilitar a paginação
